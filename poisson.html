@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poisson process</title>
+  <script>
+    function calculateOutput() {
+      var x = parseFloat(document.getElementById("inputX").value);
+      var y = parseFloat(document.getElementById("inputY").value);
+      var z = parseFloat(document.getElementById("inputZ").value);
+      
+      var outputA, outputB, outputC, outputD;
+      
+      if (z === 1) {
+        outputA = (x*x)/(y*(y-x));
+        outputB = outputA + (x/y);
+        outputC = outputA/x;
+        outputD = outputC + (1/y);
+      } 
+	else if (z > 1) {
+	var p = 0;
+	var s = 0;
+	var q = x/y;
+	var r = (z*y)-x;
+	for(var n = 0; n < z; n++){
+		s = s + (Math.pow(q,n)/factorial(n));
+		}
+	var s2 = 0;
+	s2 = (Math.pow(q,z)/factorial(z))*((z*y)/r);
+	p = 1/(s+s2);
+        outputA = ((x*y*(Math.pow(q,z)))/(factorial(z-1)*Math.pow(r,2)))*p;
+        outputB = outputA + q;
+        outputC = outputA/x;
+        outputD = outputC + (1/y);
+}
+       else if (z === 0) {
+        alert("Please enter a valid value for z.");
+        return;
+      }
+      
+      document.getElementById("outputA").innerHTML = outputA;
+      document.getElementById("outputB").innerHTML = outputB;
+      document.getElementById("outputC").innerHTML = outputC;
+      document.getElementById("outputD").innerHTML = outputD;
+    }
+     function factorial(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            } else {
+                return n * factorial(n - 1);
+            }
+        }
+  </script>
+</head>
+<body>
+  <h1>Poisson process</h1>
+  
+  <label for="inputX">Enter arrival rate (λ):</label>
+  <input type="number" id="inputX"><br><br>
+  
+  <label for="inputY">Enter service rate (μ):</label>
+  <input type="number" id="inputY"><br><br>
+  
+  <label for="inputZ">Enter number of counters:</label>
+  <input type="number" id="inputZ"><br><br>
+  
+  <button onclick="calculateOutput()">Calculate</button>
+  
+  <h2>Output:</h2>
+  <p>Average number of people in queue: <span id="outputA"></span></p>
+  <p>Average number of people in system: <span id="outputB"></span></p>
+  <p>Average waiting time in queue: <span id="outputC"></span></p>
+  <p>Average waiting time in system: <span id="outputD"></span></p>
+</body>
+</html>
